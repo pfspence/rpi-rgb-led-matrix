@@ -68,7 +68,7 @@ class StockList:
                     change = "." + str(change)[-1]  # 0.1 -> .1
                 else:
                     change = str(int(round(change)))  # 12.1 -> 12, 1.5 -> 1, 1.51 -> 2
-                graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {change}")
+                graphics.DrawText(canvas, font, x_pos, y_pos, text_color, f"{ticker} {change}")
 
                 if x_pos == 0:
                     x_pos = 32
