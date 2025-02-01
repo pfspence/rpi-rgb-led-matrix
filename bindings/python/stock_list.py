@@ -30,8 +30,7 @@ class StockList(SampleBase):
 
     def run(self):
         canvas = self.matrix.CreateFrameCanvas()
-        canvas.width = 64
-        canvas.height = 32
+        print(f"Canvas width: {canvas.width}, height: {canvas.height}")
 
         font = graphics.Font()
         font.LoadFont(f"../../fonts/{StockList.FONT_WIDTH}x{StockList.FONT_HEIGHT}.bdf")
