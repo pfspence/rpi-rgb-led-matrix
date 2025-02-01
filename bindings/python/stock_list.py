@@ -30,10 +30,14 @@ class StockList(SampleBase):
 
     def run(self):
         canvas = self.matrix.CreateFrameCanvas()
+        canvas.width = 64
+        canvas.height = 32
+
         font = graphics.Font()
         font.LoadFont(f"../../fonts/{StockList.FONT_WIDTH}x{StockList.FONT_HEIGHT}.bdf")
 
         while True:
+            canvas.Clear()
             ticker_changes = self.get_ticker_changes("day")
             y_pos = 0
             for ticker, change in ticker_changes.items():
