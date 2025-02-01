@@ -72,7 +72,7 @@ class StockList:
 
                 if x_pos == 0:
                     x_pos = 32
-                if x_pos == 32:
+                elif x_pos == 32:
                     x_pos = 0
                     y_pos += StockList.FONT_HEIGHT
 
