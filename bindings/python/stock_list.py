@@ -18,14 +18,14 @@ class StockList(SampleBase):
             tickers = f.read().splitlines()
         return tickers
 
-    def get_day_change(self, ticker: str, interval: str) -> float:
+    def get_day_change(self, ticker: str, interval: str = "day") -> float:
         return round(random.uniform(-2.0, 2.0), 1)
 
-    def get_ticker_changes(self, interval: str):
+    def get_ticker_changes(self, interval: str = "day") -> dict[str, float]:
         tickers = self.get_tickers()
         ticker_changes: dict[str, float] = {}
         for ticker in tickers:
-            ticker_changes[ticker] = self.get_day_change(ticker)
+            ticker_changes[ticker] = self.get_day_change(ticker, interval)
         return ticker_changes
 
     def run(self):
@@ -39,7 +39,7 @@ class StockList(SampleBase):
         for ticker, change in ticker_changes.items():
             print(f"{ticker}: {change}")
             text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
-            graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {change}")
+            graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {str(change)}")
             y_pos += StockList.FONT_HEIGHT
 
 # Main function
