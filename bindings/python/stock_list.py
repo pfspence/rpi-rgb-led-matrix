@@ -58,12 +58,21 @@ class StockList:
             canvas.Clear()
             ticker_changes = self.get_ticker_changes("day")
             y_pos = StockList.FONT_HEIGHT
+            x_pos = 0
             for ticker, change in ticker_changes.items():
                 print(f"{ticker}: {change}")
                 text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
+
                 change = abs(change)
-                graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {str(change)}")
-                y_pos += StockList.FONT_HEIGHT
+                if change < 1:
+                    change = "." + str(change)[-1]  # 0.1 -> .1
+                else:
+                    change = str(int(round(change)))  # 12.1 -> 12, 1.5 -> 1, 1.51 -> 2
+                graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {change}")
+
+                x_pos = 32 if x_pos == 0 else 0
+                if x_pos == 0:
+                    y_pos += StockList.FONT_HEIGHT
 
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(5)
