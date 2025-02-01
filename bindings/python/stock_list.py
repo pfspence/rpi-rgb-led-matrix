@@ -33,17 +33,18 @@ class StockList(SampleBase):
         font = graphics.Font()
         font.LoadFont(f"../../fonts/{StockList.FONT_WIDTH}x{StockList.FONT_HEIGHT}.bdf")
 
-        ticker_changes = self.get_ticker_changes("day")
+        while True:
+            ticker_changes = self.get_ticker_changes("day")
+            y_pos = 0
+            for ticker, change in ticker_changes.items():
+                print(f"{ticker}: {change}")
+                text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
+                change = abs(change)
+                graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {str(change)}")
+                y_pos += StockList.FONT_HEIGHT
 
-        y_pos = 0
-        for ticker, change in ticker_changes.items():
-            print(f"{ticker}: {change}")
-            text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
-            change = abs(change)
-            graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {str(change)}")
-            y_pos += StockList.FONT_HEIGHT
-
-        canvas = self.matrix.SwapOnVSync(canvas)
+            canvas = self.matrix.SwapOnVSync(canvas)
+            time.sleep(5)
 
 # Main function
 if __name__ == "__main__":
