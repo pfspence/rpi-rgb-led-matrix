@@ -39,8 +39,11 @@ class StockList(SampleBase):
         for ticker, change in ticker_changes.items():
             print(f"{ticker}: {change}")
             text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
+            change = abs(change)
             graphics.DrawText(canvas, font, 0, y_pos, text_color, f"{ticker} {str(change)}")
             y_pos += StockList.FONT_HEIGHT
+
+        canvas = self.matrix.SwapOnVSync(canvas)
 
 # Main function
 if __name__ == "__main__":
