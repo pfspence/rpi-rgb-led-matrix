@@ -57,7 +57,7 @@ class StockList:
         while True:
             canvas.Clear()
             ticker_changes = self.get_ticker_changes("day")
-            y_pos = 0
+            y_pos = StockList.FONT_HEIGHT
             for ticker, change in ticker_changes.items():
                 print(f"{ticker}: {change}")
                 text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
@@ -71,5 +71,4 @@ class StockList:
 # Main function
 if __name__ == "__main__":
     stock_list = StockList()
-    if (not stock_list.process()):
-        stock_list.print_help()
+    stock_list.run()
