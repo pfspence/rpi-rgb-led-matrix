@@ -37,19 +37,18 @@ class StockList:
             tickers = f.read().splitlines()
         return tickers
 
-    def get_day_change(self, ticker: str, interval: str = "day") -> float:
-        return round(random.uniform(-2.0, 2.0), 1)
+    def get_change(self, ticker: str, interval: str = "day") -> float:
+        return round(random.uniform(-20.0, 20.0), 1)
 
     def get_ticker_changes(self, interval: str = "day") -> dict[str, float]:
         tickers = self.get_tickers()
         ticker_changes: dict[str, float] = {}
         for ticker in tickers:
-            ticker_changes[ticker] = self.get_day_change(ticker, interval)
+            ticker_changes[ticker] = self.get_change(ticker, interval)
         return ticker_changes
 
     def run(self):
         canvas = self.matrix.CreateFrameCanvas()
-        print(f"Canvas width: {canvas.width}, height: {canvas.height}")
 
         font = graphics.Font()
         font.LoadFont(f"../../fonts/{StockList.FONT_WIDTH}x{StockList.FONT_HEIGHT}.bdf")
@@ -60,9 +59,8 @@ class StockList:
             y_pos = StockList.FONT_HEIGHT
             x_pos = 0
             for ticker, change in ticker_changes.items():
-                print(f"{ticker}: {change}")
-                text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
 
+                text_color = graphics.Color(155, 255, 0) if change > 0 else graphics.Color(255, 0, 0)
                 change = abs(change)
                 if change < 1:
                     change = "." + str(change)[-1]  # 0.1 -> .1
