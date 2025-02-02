@@ -39,7 +39,7 @@ class StockList:
     def get_change(self, ticker: str, interval: str = "day") -> float:
         return round(random.uniform(-20.0, 20.0), 1)
 
-    def get_ticker_data(self) -> list[tuple[str, tuple[int, int, int]]]:
+    def get_ticker_data(self) -> list[tuple[str, object]]:
 
         lines = []
         for ticker in self.get_tickers():
@@ -54,7 +54,8 @@ class StockList:
             display_last_price = round(last_price)
 
             day_change = round((last_price / day_open - 1) * 100, 1)
-            color = (0, 255, 0) if day_change > 0 else (255, 0, 0)
+            color = graphics.Color(0, 255, 0) if day_change > 0 else graphics.Color(255, 0, 0)
+
             day_change = abs(day_change)
             if day_change > 9.9:
                 day_change = round(day_change)
@@ -66,7 +67,6 @@ class StockList:
             lines.append((f"{display_ticker}{display_last_price}{display_change}", color))  # tuple of text and color
             time.sleep(1)
 
-        print(lines)
         return lines
 
 
@@ -80,13 +80,12 @@ class StockList:
             canvas.Clear()
             lines = self.get_ticker_data()
             y_pos = StockList.FONT_HEIGHT
-            x_pos = 0
 
             batch_size = 5  # we can only display 5 lines at a time
             for i in range(0, len(lines), batch_size):
                 batch = lines[i:i + batch_size]
                 for line, text_color in batch:
-                    graphics.DrawText(canvas, font, x_pos, y_pos, text_color, line)
+                    graphics.DrawText(canvas, font, 0, y_pos, text_color, line)
                     y_pos += StockList.FONT_HEIGHT
 
                 canvas = self.matrix.SwapOnVSync(canvas)
