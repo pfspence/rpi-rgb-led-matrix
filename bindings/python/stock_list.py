@@ -54,7 +54,7 @@ class StockList:
             display_last_price = round(last_price)
 
             day_change = round((last_price / day_open - 1) * 100, 1)
-            color = graphics.Color(0, 255, 0) if day_change > 0 else graphics.Color(255, 0, 0)
+            color = graphics.Color(155, 155, 0) if day_change > 0 else graphics.Color(230, 45, 0)
 
             day_change = abs(day_change)
             if day_change > 9.9:
