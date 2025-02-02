@@ -26,7 +26,7 @@ class StockList:
         options.panel_type = ""
         options.show_refresh_rate = 0
         options.gpio_slowdown = 4
-        options.disable_hardware_pulsing = False
+        options.disable_hardware_pulsing = True
         options.drop_privileges = True
 
         self.matrix = RGBMatrix(options=options)
