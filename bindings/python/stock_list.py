@@ -83,7 +83,7 @@ class StockList:
 
             batch_size = 4  # we can only display 5 lines at a time
             for i in range(0, len(lines), batch_size):
-                current_time = time.strftime("%m/%d/%y   %H:%M")
+                current_time = time.strftime("%b %d     %H:%M")
                 graphics.DrawText(canvas, font, 0, y_pos, graphics.Color(255,155,0), f"{current_time}")
                 y_pos += StockList.FONT_HEIGHT
 
