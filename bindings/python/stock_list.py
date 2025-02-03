@@ -7,6 +7,7 @@ import time
 
 
 class StockList:
+    FETCH_INTERVAL = 120  # 2 minutes. Go easy on the Yahoo API. Its delayed data anyway.
     FONT_WIDTH = 4
     FONT_HEIGHT = 6
     def __init__(self, *args, **kwargs):
@@ -35,9 +36,6 @@ class StockList:
         with open('tickers.txt', 'r') as f:
             tickers = f.read().splitlines()
         return tickers
-
-    def get_change(self, ticker: str, interval: str = "day") -> float:
-        return round(random.uniform(-20.0, 20.0), 1)
 
     def get_ticker_data(self) -> list[tuple[str, object]]:
 
@@ -76,14 +74,19 @@ class StockList:
         font = graphics.Font()
         font.LoadFont(f"../../fonts/{StockList.FONT_WIDTH}x{StockList.FONT_HEIGHT}.bdf")
 
+        lines = self.get_ticker_data()
+        fetch_time = time.monotonic()
         while True:
             canvas.Clear()
-            lines = self.get_ticker_data()
             y_pos = StockList.FONT_HEIGHT
 
-            batch_size = 4  # we can only display 5 lines at a time
+            if time.monotonic() - fetch_time > StockList.FETCH_INTERVAL:
+                lines = self.get_ticker_data()
+                fetch_time = time.monotonic()
+
+            batch_size = 4  # we can only display 5 lines at a time. 1st line is date time. 4 lines of stock data
             for i in range(0, len(lines), batch_size):
-                current_time = time.strftime("%b %d     %H:%M")
+                current_time = time.strftime("%b %d     %H:%M").upper()
                 graphics.DrawText(canvas, font, 0, y_pos, graphics.Color(255,155,0), f"{current_time}")
                 y_pos += StockList.FONT_HEIGHT
 
