@@ -81,15 +81,18 @@ class StockList:
             lines = self.get_ticker_data()
             y_pos = StockList.FONT_HEIGHT
 
-            batch_size = 5  # we can only display 5 lines at a time
+            batch_size = 4  # we can only display 5 lines at a time
             for i in range(0, len(lines), batch_size):
+                current_time = time.strftime("%m/%d/%y   %H:%M")
+                graphics.DrawText(canvas, font, 0, y_pos, graphics.Color(155,155,0), f"{current_time}")
+
                 batch = lines[i:i + batch_size]
                 for line, text_color in batch:
                     graphics.DrawText(canvas, font, 0, y_pos, text_color, line)
                     y_pos += StockList.FONT_HEIGHT
 
                 canvas = self.matrix.SwapOnVSync(canvas)
-                time.sleep(60)  # wait 60 seconds after displaying each batch
+                time.sleep(20)  # wait n seconds after displaying each batch
                 y_pos = StockList.FONT_HEIGHT  # reset y position for the next batch
                 canvas.Clear()
 
