@@ -63,6 +63,7 @@ class StockList:
                 display_last_price = f"${str(display_last_price)}".rjust(6)
                 display_change = f"{str(day_change)}%".rjust(5)
 
+                print(display_ticker, previous_close, last_price, day_change)
                 lines.append((f"{display_ticker}{display_last_price}{display_change}", color))  # tuple of text and color
             except Exception as e:
                 lines.append((f"{ticker}".ljust(10) + " ERROR", graphics.Color(255,155,0)))
