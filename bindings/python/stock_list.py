@@ -48,11 +48,11 @@ class StockList:
                     display_ticker = ticker
 
                 fast_info = yf.Ticker(ticker).fast_info
-                day_open = fast_info.open
+                previous_close = fast_info.previous_close
                 last_price = fast_info.last_price
                 display_last_price = round(last_price)
 
-                day_change = round((last_price / day_open - 1) * 100, 1)
+                day_change = round((last_price / previous_close - 1) * 100, 1)
                 color = graphics.Color(155, 155, 0) if day_change > 0 else graphics.Color(230, 45, 0)
 
                 day_change = abs(day_change)
