@@ -41,28 +41,33 @@ class StockList:
 
         lines = []
         for ticker in self.get_tickers():
-            if " as " in ticker:
-                ticker, display_ticker = ticker.split(" as ")
-            else:
-                display_ticker = ticker
+            try:
+                if " as " in ticker:
+                    ticker, display_ticker = ticker.split(" as ")
+                else:
+                    display_ticker = ticker
 
-            fast_info = yf.Ticker(ticker).fast_info
-            day_open = fast_info.open
-            last_price = fast_info.last_price
-            display_last_price = round(last_price)
+                fast_info = yf.Ticker(ticker).fast_info
+                day_open = fast_info.open
+                last_price = fast_info.last_price
+                display_last_price = round(last_price)
 
-            day_change = round((last_price / day_open - 1) * 100, 1)
-            color = graphics.Color(155, 155, 0) if day_change > 0 else graphics.Color(230, 45, 0)
+                day_change = round((last_price / day_open - 1) * 100, 1)
+                color = graphics.Color(155, 155, 0) if day_change > 0 else graphics.Color(230, 45, 0)
 
-            day_change = abs(day_change)
-            if day_change > 9.9:
-                day_change = round(day_change)
+                day_change = abs(day_change)
+                if day_change > 9.9:
+                    day_change = round(day_change)
 
-            display_ticker = display_ticker.ljust(5)
-            display_last_price = f"${str(display_last_price)}".rjust(6)
-            display_change = f"{str(day_change)}%".rjust(5)
+                display_ticker = display_ticker.ljust(5)
+                display_last_price = f"${str(display_last_price)}".rjust(6)
+                display_change = f"{str(day_change)}%".rjust(5)
 
-            lines.append((f"{display_ticker}{display_last_price}{display_change}", color))  # tuple of text and color
+                lines.append((f"{display_ticker}{display_last_price}{display_change}", color))  # tuple of text and color
+            except Exception as e:
+                lines.append((f"{ticker}".ljust(10) + " ERROR", graphics.Color(255,155,0)))
+                print(f"Error fetching data for {ticker}: {e}")
+
             time.sleep(1)
 
         return lines
