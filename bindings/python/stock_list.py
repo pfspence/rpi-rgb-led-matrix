@@ -48,20 +48,19 @@ class StockList:
                     display_ticker = ticker
 
                 fast_info = yf.Ticker(ticker).fast_info
-                previous_close = fast_info.previous_close
+                previous_close = fast_info.regular_market_previous_close
                 last_price = fast_info.last_price
                 display_last_price = round(last_price)
 
                 day_change = round((last_price / previous_close - 1) * 100, 1)
                 color = graphics.Color(155, 155, 0) if day_change > 0 else graphics.Color(230, 45, 0)
 
-                day_change = abs(day_change)
-                if day_change > 9.9:
+                if abs(day_change) > 9.9:
                     day_change = round(day_change)
 
                 display_ticker = display_ticker.ljust(5)
                 display_last_price = f"${str(display_last_price)}".rjust(6)
-                display_change = f"{str(day_change)}%".rjust(5)
+                display_change = f"{str(abs(day_change))}%".rjust(5)
 
                 print(display_ticker, previous_close, last_price, day_change)
                 lines.append((f"{display_ticker}{display_last_price}{display_change}", color))  # tuple of text and color
