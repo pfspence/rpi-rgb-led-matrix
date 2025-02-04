@@ -48,8 +48,8 @@ class StockList:
                     display_ticker = ticker
 
                 fast_info = yf.Ticker(ticker).fast_info
-                previous_close = fast_info.regular_market_previous_close
-                last_price = fast_info.last_price
+                previous_close = round(fast_info.regular_market_previous_close, 2)
+                last_price = round(fast_info.last_price, 2)
                 display_last_price = round(last_price)
 
                 day_change = round((last_price / previous_close - 1) * 100, 1)
