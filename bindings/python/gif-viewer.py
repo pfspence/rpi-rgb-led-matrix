@@ -52,7 +52,7 @@ try:
     # Infinitely loop through the gif
     while(True):
         for canvas in canvases:
-            matrix.SwapOnVSync(canvas, framerate_fraction=1)
+            matrix.SwapOnVSync(canvas, framerate_fraction=24)
 
 except KeyboardInterrupt:
     sys.exit(0)
