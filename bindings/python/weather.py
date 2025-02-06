@@ -4,7 +4,7 @@ import io
 from PIL import Image
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
-from rgbmatrix import graphics
+from rgbmatrix import graphics, RGBMatrixOptions, RGBMatrix
 from dotenv import load_dotenv
 
 load_dotenv()
