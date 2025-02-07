@@ -1,6 +1,7 @@
 import os
 import logging
 import io
+import time
 from PIL import Image
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -18,14 +19,14 @@ schedule.start()
 
 
 class Weather:
-    def __init__(self, offscreen_canvas):
+    def __init__(self, canvas):
         self.framerate = 1
-        self.offscreen_canvas = offscreen_canvas
+        self.canvas = canvas
 
         self.api_key = os.getenv("OPENWEATHERMAP_APIKEY")
         self.lat = os.getenv("LATITUDE")
         self.lon = os.getenv("LONGITUDE")
-        self.refresh_minutes = 5
+        self.refresh_minutes = 1
 
         self.temp = "--°F"
         self.icon_url = "https://openweathermap.org/img/wn/03n@2x.png"
@@ -61,31 +62,31 @@ class Weather:
         return self.framerate
 
     def show(self, matrix):
-        self.offscreen_canvas = matrix.SwapOnVSync(self.draw())
+        self.canvas = matrix.SwapOnVSync(self.draw())
 
     def draw(self):
-        self.offscreen_canvas.Clear()
+        self.canvas.Clear()
         font = graphics.Font()
-        font.LoadFont(path + "/../../fonts/5x6.bdf")
+        font.LoadFont(path + "/../../fonts/4x6.bdf")
         white = graphics.Color(255, 255, 255)
         black = graphics.Color(0, 0, 0)
 
         image = Image.open(io.BytesIO(self.icon.content))
         image.thumbnail((18, 18))
         icon = image.convert("RGB")
-        self.offscreen_canvas.SetImage(icon, 23, 2)
+        self.canvas.SetImage(icon, 23, 2)
 
-        width = graphics.DrawText(self.offscreen_canvas, font, 0, 0, black, self.temp)
+        width = graphics.DrawText(self.canvas, font, 0, 0, black, self.temp)
         graphics.DrawText(
-            self.offscreen_canvas,
+            self.canvas,
             font,
-            (self.offscreen_canvas.width - width) / 2,
+            (self.canvas.width - width) / 2,
             24,
             white,
             self.temp,
         )
 
-        return self.offscreen_canvas
+        return self.canvas
 
 
 if __name__ == "__main__":
@@ -112,4 +113,7 @@ if __name__ == "__main__":
     matrix = RGBMatrix(options=options)
 
     canvas = matrix.CreateFrameCanvas()
-    Weather(canvas).show(matrix)
+    weather = Weather(canvas)
+    time.sleep(5)
+    weather.show(matrix)
+    time.sleep(120)
