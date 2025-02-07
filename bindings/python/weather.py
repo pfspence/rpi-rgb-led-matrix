@@ -44,6 +44,7 @@ class Weather:
             )
             raw = r.json()["current"]
 
+            self.description = raw["weather"][0]["description"]
             self.temp = str(round(raw["temp"])) + "°F"
             self.icon_url = (
                 "http://openweathermap.org/img/wn/"
@@ -68,21 +69,32 @@ class Weather:
         self.canvas.Clear()
         font = graphics.Font()
         font.LoadFont(path + "/../../fonts/4x6.bdf")
-        white = graphics.Color(255, 255, 255)
         amber = graphics.Color(255, 155, 0)
 
         image = Image.open(io.BytesIO(self.icon.content))
-        image.thumbnail((48, 48))
+        image.thumbnail((40, 40))
         icon = image.convert("RGB")
-        self.canvas.SetImage(icon, -4, -8)
+        self.canvas.SetImage(icon, 0, -8)
+
+        temp_x_pos = 64 - 4 * len(self.temp)
+        desc_x_pos = 64 - 4 * len(self.description)
+        desc_x_pos = 0 if desc_x_pos < 0 else desc_x_pos
 
         graphics.DrawText(
             self.canvas,
             font,
-            40,
-            24,
+            temp_x_pos,
+            26,
             amber,
             self.temp,
+        )
+        graphics.DrawText(
+            self.canvas,
+            font,
+            desc_x_pos,
+            32,
+            amber,
+            self.description,
         )
 
         return self.canvas
