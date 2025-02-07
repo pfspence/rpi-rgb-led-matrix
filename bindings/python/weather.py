@@ -44,7 +44,7 @@ class Weather:
             )
             raw = r.json()["current"]
 
-            self.description = raw["weather"][0]["description"]
+            self.description = raw["weather"][0]["description"].upper()
             self.temp = str(round(raw["temp"])) + "°F"
             self.icon_url = (
                 "http://openweathermap.org/img/wn/"
