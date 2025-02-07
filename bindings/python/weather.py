@@ -26,10 +26,10 @@ class Weather:
         self.api_key = os.getenv("OPENWEATHERMAP_APIKEY")
         self.lat = os.getenv("LATITUDE")
         self.lon = os.getenv("LONGITUDE")
-        self.refresh_minutes = 1
+        self.refresh_minutes = 5
 
         self.temp = "--°F"
-        self.icon_url = "https://openweathermap.org/img/wn/03n@2x.png"
+        self.icon_url = "https://openweathermap.org/img/wn/03d@2x.png"
         self.icon = requests.get(self.icon_url)
 
         schedule.add_job(self._get_weather_data)
@@ -69,20 +69,19 @@ class Weather:
         font = graphics.Font()
         font.LoadFont(path + "/../../fonts/4x6.bdf")
         white = graphics.Color(255, 255, 255)
-        black = graphics.Color(0, 0, 0)
+        amber = graphics.Color(255, 155, 0)
 
         image = Image.open(io.BytesIO(self.icon.content))
-        image.thumbnail((18, 18))
+        image.thumbnail((48, 48))
         icon = image.convert("RGB")
-        self.canvas.SetImage(icon, 23, 2)
+        self.canvas.SetImage(icon, -4, -8)
 
-        width = graphics.DrawText(self.canvas, font, 0, 0, black, self.temp)
         graphics.DrawText(
             self.canvas,
             font,
-            (self.canvas.width - width) / 2,
+            40,
             24,
-            white,
+            amber,
             self.temp,
         )
 
