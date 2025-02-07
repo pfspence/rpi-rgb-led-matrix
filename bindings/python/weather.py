@@ -99,7 +99,7 @@ class Weather:
         graphics.DrawText(
             self.canvas,
             font,
-            27,
+            59,
             6,
             amber,
             time.strftime("%H:%M").upper(),
