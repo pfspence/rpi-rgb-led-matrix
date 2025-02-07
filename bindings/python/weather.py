@@ -96,6 +96,14 @@ class Weather:
             amber,
             self.description,
         )
+        graphics.DrawText(
+            self.canvas,
+            font,
+            0,
+            6,
+            amber,
+            time.strftime("%b %d     %H:%M").upper(),
+        )
 
         return self.canvas
 
